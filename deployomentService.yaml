@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
       - name: python-jenkins-example
-        image: mayurpatil1211/python-jenkins:24
+        image: TEST_IMAGE_NAME #mayurpatil1211/python-jenkins:24  
         ports:
         - name: http-port
-          containerPort: 80
+          containerPort: 5000
         resources:
           requests:
             cpu: 200m

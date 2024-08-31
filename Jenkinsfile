@@ -59,9 +59,20 @@ pipeline {
             }
         }
                     
-        stage('Deploy') {
+        // stage('Deploy') {
+        //   steps {
+        //         sh label: '', script: "docker run -d --name ${JOB_NAME} -p 5000:5000 ${img}"
+        //   }
+        // }
+
+        stage('Deploy to Kubernetes') {
           steps {
-                sh label: '', script: "docker run -d --name ${JOB_NAME} -p 5000:5000 ${img}"
+                script {
+                sh "sed -i 's,TEST_IMAGE_NAME,mayurpatil1211/python-jenkins:$BUILD_NUMBER,' deployomentService.yaml"
+                sh "cat deployomentService.yaml"
+                sh "kubectl --kubeconfig=/home/ec2-user/config get pods"
+                sh "kubectl --kubeconfig=/home/ec2-user/config apply -f deployomentService.yaml"
+                }
           }
         }
 
