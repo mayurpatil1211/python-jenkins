@@ -11,7 +11,7 @@ pipeline {
         
         stage('checkout') {
                 steps {
-                git branch: 'master',
+                git branch: 'main',
                 credentialsId: githubCredential,
                 url: 'https://github.com/mayurpatil1211/python-jenkins.git'
                 }
@@ -19,9 +19,17 @@ pipeline {
         
         stage ('Test'){
                 steps {
-                sh "pytest testRoutes.py"
+                  
+                    
+                    echo '********************Running tests*********'
+                    sh "printenv"
+                    sh "ls -l"
+                    sh 'pip3 install -r requirements.txt'
+                    sh "python3 -m pytest -v"
+                    // 
                 }
-        }
+            }
+        
         
         stage ('Clean Up'){
             steps{
@@ -52,7 +60,7 @@ pipeline {
         }
                     
         stage('Deploy') {
-           steps {
+          steps {
                 sh label: '', script: "docker run -d --name ${JOB_NAME} -p 5000:5000 ${img}"
           }
         }
